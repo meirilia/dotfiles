@@ -101,7 +101,6 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Environment Variables
-MAKEFLAGS="-j$(nproc)"
 export PATH=$PATH:~/.spoof-dpi/bin
 
 # Aliases
