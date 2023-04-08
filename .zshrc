@@ -41,7 +41,7 @@ ZSH_THEME="agnoster"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # You can also set it to another string to have that shown instead of the default red dots.
@@ -77,6 +77,7 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
+export PATH=$PATH:~/.spoof-dpi/bin
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -100,23 +101,26 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# Environment Variables
-export PATH=$PATH:~/.spoof-dpi/bin
+# Variables for EFISTUB
+disk="/dev/nvme0n1p1" # UEFI boot partition (the one with fat32/16)
+label="Arch_Linux" # the name (idk what the exact name is) from UEFI bootloader
+kernel="vmlinuz-linux" # kernel to boot from
+rootdisk="PARTUUID=5340c090-0598-8f4b-8bfb-fb741d1cbc9d" # root partition
+rootflags="rw nowatchdog fastboot vt.global_cursor_default=0 fsck.mode=skip nvme_load=yes" # self-explanotary
+initrd="initrd=intel-ucode.img initrd=initramfs-linux.img" # initramfs and processor ucode stuff
 
 # Aliases
-alias vim="nvim"
-alias grubup="sudo grub-mkconfig -o /boot/grub/grub.cfg"
-alias grubin="sudo grub-install --target=x86_64-efi --bootloader-id=archlinux --efi-directory=/boot/efi"
-alias sysup="yay; flatpak update"
-alias syscln="yay -Sc && pacman -Qtdq | sudo pacman -Rnsc -"
-alias pacrem="yay -Rnsc"
-alias pacsrc="yay -Fy"
-alias vimenv="sudo -e /etc/environment"
-alias vimgrub="sudo -e /etc/default/grub"
-alias vimpac="sudo -e /etc/pacman.conf"
-alias dnfins="sudo dnf install"
-alias dnfrem="sudo dnf remove"
+alias sysup="yay; flatpak upgrade"
+alias pacrem="sudo pacman -Rnsc"
+alias pacsrc="sudo pacman -Fy"
+alias syscln="pacman -Qtdq | sudo pacman -Rns -"
+
 alias flatin="flatpak install"
+alias flatup="flatpak upgrade"
 alias flatrem="flatpak remove"
-alias estub="sudo efibootmgr -b 2 -B; sudo efibootmgr -c -d /dev/nvme0n1p1 -p 1 -L 'EFI STUB' -l '\EFI\efistub\bootx64.efi' -u 'root=PARTUUID=9fc4178b-b524-e44b-a9ef-0a75a57227e2 rootflags=subvol=/@,defaults,noatime,compress=zstd initrd=\EFI\efistub\intel-ucode.img rw initrd=\EFI\efistub\initramfs-linux-t480.img nvme_load=yes nowatchdog quiet i915.fastboot=1 splashrd.systemd.show_status=false systemd.show_status=false rd.udev.log_level=3 video=SVIDEO-1:d'"
-alias mvkernel="sudo cp /boot/vmlinuz-linux-t480 /boot/efi/EFI/efistub/bootx64.efi; sudo cp /boot/initramfs-linux-t480.img /boot/efi/EFI/efistub/; sudo cp /boot/initramfs-linux-t480-fallback.img /boot/efi/EFI/efistub/"
+
+alias bootup="sudo efibootmgr -b 0 -B; sudo efibootmgr --create --disk $disk --part 1 --label "$label" --loader $kernel --unicode 'root=$rootdisk $rootflags $initrd'"
+
+alias vimenv="sudo -e /etc/environment"
+alias vimpac="sudo -e /etc/pacman.conf"
+alias vimtemp="sudo -e /etc/throttled.conf"
