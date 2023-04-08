@@ -1,5 +1,5 @@
-# Archlinux dotfiles
+# Stuff
 
-System : Thinkpad T480
+System : Thinkpad T480 i5-8350U
 
-The files contain my dotfiles. "tconfig" is my custom linux kernel config and so on
+tconfig = linux kernel config
