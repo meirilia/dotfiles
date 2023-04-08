@@ -6,17 +6,17 @@ timedatectl
 
 setup() {
 	# To Partition Disk
-	echo "Which disk do you want to be partitioned?"
+	echo "Which disk do you want to be partitioned (/dev/...)?"
 	read DISK
-	echo "BE CAREFUL TO DOUBLE CHECK!"
+	echo "BE SURE TO DOUBLE CHECK!"
 	read -n 1 -r -s -p $'Press enter to continue...\n'
-	cfdisk 
+	cfdisk $DISK
 
 	# Choose EFI partition and Root Partition
-	echo "Insert your EFI partition"
+	echo "Insert your EFI partition (/dev/...)"
 	read EFI
 
-	echo "Insert your root partition"
+	echo "Insert your root partition (/dev/..."
 	read ROOT
 
 	echo "What file system do you want to have (ext4 or btrfs)?"
@@ -30,13 +30,13 @@ setup() {
 	mount $EFI /mnt/boot
 }
 
-installation() {
+chroot() {
 	# Install base system
 	echo "What processor do you have (amd or intel)? (type with lowercase)"
 	read CPU
 	
 	echo "Installing base system"
-	pacstrap -K /mnt base linux linux-firmware vim $CPU-ucode networkmanager efitools efibootmgr
+	pacstrap -K /mnt base linux linux-firmware vim $CPU-ucode networkmanager efibootmgr
 	genfstab -U /mnt >> /mnt/etc/fstab
 
 	echo "Chrooting..."
@@ -70,7 +70,7 @@ installation() {
 	echo "What cool name do you want to display on your bootloader (no space or some reason it will fuck up)?"
 	read LABEL
 
-	echo "Insert your block device identifier (yes i know but how do you automate this help)"
+	echo "Insert your block device identifier (run BLKID first to know, yes i know but how do you automate this help)"
 	read UUID
 
 	echo "Any rootflags do you want to add?"
