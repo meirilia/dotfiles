@@ -3,6 +3,7 @@
 echo "Make sure you have connected to the internet first!"
 echo "NOTE! this only work if you have UEFI and your UEFI aint shit"
 timedatectl
+read -n 1 -r -s -p $'Proceed?\n'
 
 setup() {
 	# To Partition Disk
@@ -30,7 +31,7 @@ setup() {
 	mount $EFI /mnt/boot
 }
 
-chroot() {
+installation() {
 	# Install base system
 	echo "What processor do you have (amd or intel)? (type with lowercase)"
 	read CPU
@@ -79,9 +80,8 @@ chroot() {
 	INITRD="initrd=$CPU-ucode.img initrd=initramfs-linux.img"
 
 	echo "Actually Installing it"
-	efibootmgr --create --disk $ROOT --part 1 --label "$LABEL" --loader vmlinuz-linux --unicode 'root=$UUID $ROOTFLAGS $INITRD'
+	efibootmgr --create --disk $EFI --part 1 --label "$LABEL" --loader vmlinuz-linux --unicode 'root=$UUID $ROOTFLAGS $INITRD'
 
-	echo "ok that's it, you can reboot (hopefully) safely now\n if it doesnt, chroot and RTFM lol"
-	read -n 1 -r -s -p $'Press enter to end it all...\n'
+	echo "ok that's it, you can reboot (hopefully) safely now\n"
 }
 
