@@ -76,6 +76,6 @@ read ROOTFLAGS
 INITRD="initrd=$CPU-ucode.img initrd=initramfs-linux.img"
 
 echo "Actually Installing it"
-efibootmgr --create --disk $EFI --part 1 --label "$LABEL" --loader vmlinuz-linux --unicode 'root=$UUID $ROOTFLAGS $INITRD'
+efibootmgr --create --disk $EFI --part 1 --label "$LABEL" --loader vmlinuz-linux --unicode "root=$UUID $ROOTFLAGS $INITRD"
 
 echo "ok that's it, you can reboot (hopefully) safely now\n"
