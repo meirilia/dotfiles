@@ -27,7 +27,7 @@ mkfs.$FS $ROOT
 
 echo "Mounting..."
 mount $ROOT /mnt
-mount $EFI /mnt/boot
+mount $EFI --mkdir /mnt/boot
 
 # Install base system
 echo "What processor do you have (amd or intel)? (type with lowercase)"
