@@ -1,5 +1,7 @@
-# Stuff
+# Personal Config Files
 
-System : Thinkpad T480 i5-8350U
+- System : Thinkpad T480 i5-8350U
+  
+__NO LONGER ARCH USER__
 
-tconfig = linux kernel config
+__I use NixOS now !!!__
