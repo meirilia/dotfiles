@@ -6,4 +6,4 @@ __NO LONGER ARCH USER__
 
 __I use NixOS now !!!__
 
-For now, i use gnome. But might try Hyprland later if it cooks enough.
+For now, i use gnome. but might try Hyprland later if i have the time to rice the shit out of it.
